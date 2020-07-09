@@ -1,1 +1,27 @@
 # Object-Recognition
+
+## INTRODUCTION
+
+Image data recognition is becoming increasingly important given the exponential growth of digital images. There are so many potential applications from medical diagnosis to snapchat filters with years of research behind them. Unfortunately, there is still a long way to go with the research as there are still many challenges such as variability in lighting, scales, clutter and rotation, to only name a few (Tan, et al., 2013).
+This report will go over the methods and implementation of LDA with SVC kernels and neural networks involved in classifying the testing images into object categories. Quantitative results were then produced to conclude LDA with RBF was the most accurate at classifying the given image features.
+
+## METHOD
+First, using the computeFeatures function, HOG features were computed and then extracted over a loop in the range of the number of images, 1000 for testing and 10000 for training. These features were then put in arrays for the testing and training data.
+Linear Discriminant Analysis (LDA) was implemented using Sklearn. LDA is a supervised learning method commonly used for dimensionality reduction while preserving as much of the class discriminatory information as possible. It achieves this by maximising the between-class distance and minimising the within-class distance. Because of this combined with the fact that it can be used for feature selection (Clemmensen, et al., 2011), LDA was chosen to help solve the problem at hand.
+Support Vector Classifiers (SVCs) were used alongside LDA as they are capable of performing multi-class classification on a dataset. Linear, RBF and polynomial were all used since they accept different sets of parameters as they use different mathematical formulas. It was predicted that linear would be the least accurate out of the three, since a simpler formula and more prone to error.
+Using a linear kernel type, an SVC model was generated. This model was then fitted to the data set and used to predict the class of the test observations. This was then repeated for RBF and polynomial kernel types. Next, the LDA data was generated using the LDA.fit function with the parameters test data and test labels. Accuracies were calculated for each LDA kernel type by using the accuracy_score function from Sklearn with the original test labels and the new predicted labels for each kernel type. A graph was also plotted for each set of data using the LDA data and predicted labels for each kernel types.
+The neural network also used the HOG features but normalised the data based on the training set. The network architecture, denoted as model, was built by stacking layers in a Keras Sequential object. This was then used to create an input layer, two hidden layers which each had 324 nodes and one output layer which was used to get the predicted class labels. When fitting the model to the data, 200 epochs were chosen, which are essentially the number of iterations through each layer. Using the predict function, the predicted probabilities were calculated which were then used with the argmax function to get the predicted labels. Again, the accuracy for the neural network was calculated using accuracy_score.
+
+## RESULTS
+From looking at figure 1, you can see the confusion matrix for each experiment which plots the accuracies of each true label against the predicted label. Using different SVC kernels with LDA provided different results, as expected. Linear SVC had an accuracy of 48.5%, the lowest of the kernels. This means the initial prediction was
+correct. Next the polynomial SVC achieved an accuracy of 55.9% and with the best accuracy was RBF at 60.0%. This makes sense as they are non-linear classifies and tend to have higher accuracy as they are better able to represent the classification.
+
+Generally neural networks are more accurate in various tasks but the neural network from this experiment had an accuracy of 54.9%. Although higher than the linear SVC, it was lower than both polynomial and RBF. This was partly due to the data overfitting the model but it could have reached an accuracy of up to 70%. Although the neural network could have been better, it is computationally expensive and to run the neural network took almost an hour each time, as opposed to running LDA with the SVC models which took less than 10 minutes.
+
+## CONCLUSION
+To conclude, neural networks are generally better when the data isn’t being overfitted or underfitted but they are also computationally expensive so not always ideal. In this experiment, LDA with an RBF SVC had the highest accuracy with 60%. Although not perfect, it still classified the objects in each image better than the other methods and computed faster than the neural network. In summary, RBF is the best method for image classification from looking at the results of these experiments. There is still room for improvement but has great potential to be used with a wide variety of applications such as medical diagnostics to snapchat filters.
+
+## REFERENCES
+Clemmensen, L., Hastie, T., Witten, D. & Ersbøll, B., 2011. Sparse Discriminant Analysis, Standford: Standford University.
+Tan, T., Huang, Y. & Zhang, J., 2013. Recent Progress on Object Classification and Detection. Progress in Pattern Recognition, Image Analysis, Computer Vision, and Applications, Volume 8259, pp. 1-8.
+Figure 1. Confusion matrices showing the accuracy of true labels against predicted labels for each of the 4 experiments.
